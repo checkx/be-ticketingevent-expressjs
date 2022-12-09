@@ -1,16 +1,16 @@
 const {
-  getAllCategories,
-  getOneCategories,
-  updateCategories,
-  createCategories,
-  deleteCategories,
-} = require('../../../services/mongoose/categories');
+  getAllEvents,
+  getOneEvents,
+  updateEvents,
+  createEvents,
+  deleteEvents,
+} = require('../../../services/mongoose/events');
 
 const { StatusCodes } = require('http-status-codes');
 
 const create = async (req, res, next) => {
   try {
-    const result = await createCategories(req);
+    const result = await createEvents(req);
 
     res.status(StatusCodes.CREATED).json({
       data: result,
@@ -22,7 +22,7 @@ const create = async (req, res, next) => {
 
 const index = async (req, res, next) => {
   try {
-    const result = await getAllCategories(req);
+    const result = await getAllEvents(req);
 
     res.status(StatusCodes.OK).json({
       data: result,
@@ -34,7 +34,7 @@ const index = async (req, res, next) => {
 
 const find = async (req, res, next) => {
   try {
-    const result = await getOneCategories(req);
+    const result = await getOneEvents(req);
 
     res.status(StatusCodes.OK).json({
       data: result,
@@ -46,7 +46,7 @@ const find = async (req, res, next) => {
 
 const update = async (req, res, next) => {
   try {
-    const result = await updateCategories(req);
+    const result = await updateEvents(req);
 
     res.status(StatusCodes.OK).json({
       data: result,
@@ -58,7 +58,7 @@ const update = async (req, res, next) => {
 
 const destroy = async (req, res, next) => {
   try {
-    const result = await deleteCategories(req);
+    const result = await deleteEvents(req);
 
     res.status(StatusCodes.OK).json({
       data: result,
@@ -67,6 +67,7 @@ const destroy = async (req, res, next) => {
     next(err);
   }
 };
+
 module.exports = {
   index,
   find,

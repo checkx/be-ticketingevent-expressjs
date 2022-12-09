@@ -6,30 +6,34 @@ const {
   authorizeRoles,
 } = require('../../../middlewares/auth');
 
-router.get('/categories', authenticateUser, authorizeRoles('organizer'), index);
 router.get(
-  '/categories/:id',
+  '/events',
   authenticateUser,
-  authorizeRoles('organizer'),
+  authorizeRoles('organizer', 'admin'),
+  index
+);
+router.get(
+  '/events/:id',
+  authenticateUser,
+  authorizeRoles('organizer', 'admin'),
   find
 );
 router.put(
-  '/categories/:id',
+  '/events/:id',
   authenticateUser,
-  authorizeRoles('organizer'),
+  authorizeRoles('organizer', 'admin'),
   update
 );
 router.delete(
-  '/categories/:id',
+  '/events/:id',
   authenticateUser,
-  authorizeRoles('organizer'),
+  authorizeRoles('organizer', 'admin'),
   destroy
 );
 router.post(
-  '/categories',
+  '/events',
   authenticateUser,
-  authorizeRoles('organizer'),
+  authorizeRoles('organizer', 'admin'),
   create
 );
-
 module.exports = router;
