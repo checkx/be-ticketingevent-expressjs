@@ -1,12 +1,12 @@
+const { StatusCodes } = require('http-status-codes');
+
 const {
   getAllCategories,
+  createCategories,
   getOneCategories,
   updateCategories,
-  createCategories,
   deleteCategories,
 } = require('../../../services/mongoose/categories');
-
-const { StatusCodes } = require('http-status-codes');
 
 const create = async (req, res, next) => {
   try {
@@ -59,7 +59,6 @@ const update = async (req, res, next) => {
 const destroy = async (req, res, next) => {
   try {
     const result = await deleteCategories(req);
-
     res.status(StatusCodes.OK).json({
       data: result,
     });
@@ -67,6 +66,7 @@ const destroy = async (req, res, next) => {
     next(err);
   }
 };
+
 module.exports = {
   index,
   find,

@@ -1,3 +1,4 @@
+// import model Talents
 const Talents = require('../../api/v1/talents/model');
 const { checkingImage } = require('./images');
 
@@ -7,9 +8,7 @@ const { NotFoundError, BadRequestError } = require('../../errors');
 const getAllTalents = async (req) => {
   const { keyword } = req.query;
 
-  let condition = {
-    organizer: req.user.organizer,
-  };
+  let condition = { organizer: req.user.organizer };
 
   if (keyword) {
     condition = { ...condition, name: { $regex: keyword, $options: 'i' } };
@@ -34,8 +33,8 @@ const createTalents = async (req) => {
   // cari talents dengan field name
   const check = await Talents.findOne({ name, organizer: req.user.organizer });
 
-  // apa bila check true / data talents sudah ada maka kita tampilkan error bad request dengan message pembicara duplikat
-  if (check) throw new BadRequestError('pembicara nama duplikat');
+  // apa bila check true / data talents sudah ada maka kita tampilkan error bad request dengan message pembicara sudah terdaftar
+  if (check) throw new BadRequestError('pembicara sudah terdaftar');
 
   const result = await Talents.create({
     name,
@@ -80,8 +79,8 @@ const updateTalents = async (req) => {
     _id: { $ne: id },
   });
 
-  // apa bila check true / data talents sudah ada maka kita tampilkan error bad request dengan message pembicara nama duplikat
-  if (check) throw new BadRequestError('pembicara nama duplikat');
+  // apa bila check true / data talents sudah ada maka kita tampilkan error bad request dengan message pembicara sudah terdaftar
+  if (check) throw new BadRequestError('pembicara sudah terdaftar');
 
   const result = await Talents.findOneAndUpdate(
     { _id: id },
@@ -113,7 +112,6 @@ const deleteTalents = async (req) => {
 };
 
 const checkingTalents = async (id) => {
-  console.log(id);
   const result = await Talents.findOne({ _id: id });
 
   if (!result)

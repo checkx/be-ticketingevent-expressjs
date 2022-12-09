@@ -7,10 +7,16 @@ const getAllCategories = async (req) => {
 
   return result;
 };
+
 const createCategories = async (req) => {
   const { name } = req.body;
+
   // cari categories dengan field name
-  const check = await Categories.findOne({ name });
+  const check = await Categories.findOne({
+    name,
+    organizer: req.user.organizer,
+  });
+
   // apa bila check true / data categories sudah ada maka kita tampilkan error bad request dengan message kategori nama duplikat
   if (check) throw new BadRequestError('kategori nama duplikat');
 
@@ -34,9 +40,11 @@ const getOneCategories = async (req) => {
 
   return result;
 };
+
 const updateCategories = async (req) => {
   const { id } = req.params;
   const { name } = req.body;
+
   // cari categories dengan field name dan id selain dari yang dikirim dari params
   const check = await Categories.findOne({
     name,
@@ -52,10 +60,13 @@ const updateCategories = async (req) => {
     { name },
     { new: true, runValidators: true }
   );
+
   // jika id result false / null maka akan menampilkan error `Tidak ada Kategori dengan id` yang dikirim client
   if (!result) throw new NotFoundError(`Tidak ada Kategori dengan id :  ${id}`);
+
   return result;
 };
+
 const deleteCategories = async (req) => {
   const { id } = req.params;
 
@@ -65,7 +76,9 @@ const deleteCategories = async (req) => {
   });
 
   if (!result) throw new NotFoundError(`Tidak ada Kategori dengan id :  ${id}`);
+
   await result.remove();
+
   return result;
 };
 
@@ -78,6 +91,7 @@ const checkingCategories = async (id) => {
 
   return result;
 };
+
 module.exports = {
   getAllCategories,
   createCategories,
